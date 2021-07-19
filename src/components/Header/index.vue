@@ -56,8 +56,14 @@ export default {
   },
   methods: {
     toSearch() {
-      this.$router.push('/search')
-    }
+      // this.$router.push('/search/' + this.keyWord);
+      this.$router.push({
+        name: 'search',
+        params: {
+          keyWord: this.keyWord,
+        }
+      })
+    } 
   }
 }
 </script>

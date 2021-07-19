@@ -1,5 +1,5 @@
 <template>
-  <div>Search</div>
+  <div>{{$route.params.keyWord}}</div>
 </template>
 
 <script>
@@ -9,5 +9,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 </style>
