@@ -9,14 +9,20 @@ import Register from '@/pages/Register';
 Vue.use(VueRouter);
 
 const _push = VueRouter.prototype.push;
-VueRouter.prototype.push = function(localtion, resolved, rejected) {
-  if (!resolved && !rejected) return _push.call(this, localtion).catch(() => {});
-  return _push.call(this, resolved, rejected);
+VueRouter.prototype.push = function(location, resolved, rejected) {
+  if (resolved === undefined && rejected === undefined) {
+    return _push.call(this, location).catch(() => {});
+  } else {
+    return _push.call(this, location, resolved, rejected);
+  }
 };
-const replace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function(localtion, resolved, rejected) {
-  if (!resolved && !rejected) return replace.call(this, localtion).catch(() => {});
-  return replace.call(this, resolved, rejected);
+const _replace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function(location, resolved, rejected) {
+  if (resolved === undefined && rejected === undefined) {
+    return _replace.call(this, location).catch(() => {});
+  } else {
+    return _replace.call(this, location, resolved, rejected);
+  }
 };
 
 export default new VueRouter({
