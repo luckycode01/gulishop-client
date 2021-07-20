@@ -1,9 +1,43 @@
 <template>
-
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <div @mouseleave="mouseMoveLeave" @mouseenter="isShowSort = true">
+        <h2 class="all">全部商品分类</h2>
+        <transition name="sortshow">
+          <div class="sort" v-show="isShowSort">
+            <div class="all-sort-list2" @click='toSearch'>
+              <div class="item" :class="{item_on:currentIndex === index}" @mouseenter="mouseMoveEnter(index)" v-for="(item1,index) in categoryList" :key="item1.categoryId">
+                <h3>
+                  <a href="javascript:;" :data-categoryId1='item1.categoryId' :data-categoryName='item1.categoryName'>{{item1.categoryName}}</a>
+                  <!-- 声明式导航相当在内存中创建组件对象，影响性能造成卡顿 -->
+                  <!-- <router-link :to="{name:'search',query:{categoryId1:item1.categoryId,categoryName:item1.categoryName}}">{{item1.categoryName}}</router-link> -->
+                  <!-- 编程式导航可以解决 -->
+                  <!-- <a href="javascript:;" @click="$router.push({name:'search',query:{categoryId1:item1.categoryId,categoryName:item1.categoryName}})">{{item1.categoryName}}</a> -->
+                </h3>
+                <div class="item-list clearfix">
+                  <div class="subitem">
+                    <dl class="fore" v-for="item2 in item1.categoryChild" :key="item2.categoryId">
+                      <dt>
+                        <a href="javascript:;" :data-categoryId2='item2.categoryId' :data-categoryName='item2.categoryName'>{{item2.categoryName}}</a>
+                        <!-- <router-link :to="{name:'search',query:{categoryId2:item2.categoryId,categoryName:item2.categoryName}}">{{item2.categoryName}}</router-link> -->
+                        <!-- <a href="javascript:;" @click="$router.push({name:'search',query:{categoryId2:item2.categoryId,categoryName:item2.categoryName}})">{{item2.categoryName}}</a> -->
+                      </dt>
+                      <dd>
+                        <em v-for="item3 in item2.categoryChild" :key="item3.categoryId">
+                          <a href="javascript:;" :data-categoryId3='item3.categoryId' :data-categoryName='item3.categoryName'>{{item3.categoryName}}</a>
+                          <!-- <router-link :to="{name:'search',query:{categoryId3:item3.categoryId,categoryName:item3.categoryName}}">{{item3.categoryName}}</router-link> -->
+                          <!-- <a href="javascript:;" @click="$router.push({name:'search',query:{categoryId2:item2.categoryId,categoryName:item2.categoryName}})">{{item2.categoryName}}</a> -->
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -14,48 +48,71 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="item1 in categoryList" :key="item1.categoryId">
-            <h3>
-              <a href="">{{item1.categoryName}}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div class="subitem">
-                <dl class="fore" v-for="item2 in item1.categoryChild" :key="item2.categoryId">
-                  <dt>
-                    <a href="">{{item2.categoryName}}</a>
-                  </dt>
-                  <dd>
-                    <em v-for="item3 in item2.categoryChild" :key="item3.categoryId">
-                      <a href="">{{item3.categoryName}}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex'
+import throttle from 'lodash/throttle';
 export default {
   name: 'TypeNav',
   data() {
     return {
+      currentIndex: -1,
+      isShowSort: true,
     }
   },
   mounted() {
-    this.getCategoryList()
+    // this.getCategoryList();
+    if (this.$route.path === '/search') {
+      this.isShowSort = false;
+    }
   },
   methods: {
-    getCategoryList() {
-      this.$store.dispatch('getCategoryList');
+    // getCategoryList() {
+    //   this.$store.dispatch('getCategoryList');
+    // },
+    // mouseMoveEnter(index) {
+    //   this.currentIndex = index;
+    //   console.log(index);
+    // }
+    // mouseMoveEnter: function (index) {
+    //   this.currentIndex = index;
+    //   console.log(index);
+    // }
+    // mouseMoveEnter: _.throttle(function (index) {
+    //   this.currentIndex = index;
+    //   console.log(index);
+    // }, 500, { trailing: false }),
+    // 鼠标移入事件，（防抖节流）
+    mouseMoveEnter: throttle(function (index) {
+      this.currentIndex = index;
+    }, 20, { trailing: false }),
+    // 鼠标移出
+    mouseMoveLeave() {
+      this.currentIndex = -1;
+      if (this.$route.path === '/search') {
+        this.isShowSort = false;
+      }
     },
+    toSearch(event) {
+      const dataset = event.target.dataset;
+      // 解构自定义的属性值
+      const { categoryid1, categoryid2, categoryid3, categoryname } = dataset;
+      const location = { name: 'search', }
+      // 判断id的值，确定传入的参数
+      if (categoryid1)
+        location.query = { categoryId1: categoryid1, categoryName: categoryname }
+      else if (categoryid2)
+        location.query = { categoryId2: categoryid2, categoryName: categoryname }
+      else
+        location.query = { categoryId3: categoryid3, categoryName: categoryname }
+
+      if (this.$route.params) location.params = this.$route.params
+      if (categoryname) {
+        this.$router.push(location);
+      }
+    }
   },
   computed: {
     ...mapState({
@@ -107,8 +164,20 @@ export default {
       width: 210px;
       height: 461px;
       position: absolute;
-      background: #fafafa;
+      background: #9f9d9f;
       z-index: 999;
+
+      &.sortshow-enter {
+        height: 0;
+        opacity: 0;
+      }
+      &.sortshow-enter-to {
+        height: 461px;
+        opacity: 1;
+      }
+      &.sortshow-enter-active {
+        transition: all 0.3s;
+      }
 
       .all-sort-list2 {
         .item {
@@ -121,7 +190,7 @@ export default {
             margin: 0;
 
             a {
-              color: #333;
+              color: #ffffff;
             }
           }
 
@@ -162,7 +231,7 @@ export default {
 
                 dd {
                   float: left;
-                  width: 415px;
+                  width: 555px;
                   padding: 3px 0 0;
                   overflow: hidden;
 
@@ -179,7 +248,8 @@ export default {
             }
           }
 
-          &:hover {
+          &.item_on {
+            background-color: #ff6a00;
             .item-list {
               display: block;
             }
