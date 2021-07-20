@@ -56,14 +56,17 @@ export default {
   },
   methods: {
     toSearch() {
-      // this.$router.push('/search/' + this.keyWord);
-      this.$router.push({
+      const location = {
         name: 'search',
         params: {
           keyWord: this.keyWord,
         }
-      })
-    } 
+      }
+      // this.$router.push('/search/' + this.keyWord);
+      if (this.$route.query) location.query = this.$route.query;
+
+      this.$router.push(location)
+    }
   }
 }
 </script>

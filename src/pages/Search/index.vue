@@ -1,5 +1,7 @@
 <template>
-  <div>{{$route.params.keyWord}}</div>
+  <div>
+    <TypeNav></TypeNav>
+  </div>
 </template>
 
 <script>
