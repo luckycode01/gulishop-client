@@ -3,29 +3,19 @@
   <div class="list-container">
     <div class="sortList clearfix">
       <div class="center">
+        <MySwiper :bannerList="bannerList" :refName="'bannerSwiper'"></MySwiper>
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <!-- <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <div class="swiper-slide" v-for="item in bannerList " :key="item.id">
+              <img :src="item.imgUrl" />
             </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
           </div>
-          <!-- 如果需要分页器 -->
+         
           <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
-        </div>
+        </div> -->
       </div>
       <div class="right">
         <div class="news">
@@ -111,8 +101,50 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+// import Swiper from 'swiper'
 export default {
   name: 'ListContainer',
+  mounted() {
+    this.getBannerList();
+  },
+  methods: {
+    getBannerList() {
+      this.$store.dispatch('getBannerList')
+    }
+  },
+  computed: {
+    ...mapState({
+      bannerList: (store) => store.home.bannerList,
+    })
+  },
+  // watch: {
+  //   bannerList: {
+  //     immediate: true,
+  //     handler() {
+  //       this.$nextTick(() => {
+  //         new Swiper(this.$refs.mySwiper, {
+  //           // direction: 'vertical', // 垂直切换选项 
+  //           loop: true, // 循环模式选项
+
+  //           // 如果需要分页器
+  //           pagination: {
+  //             el: '.swiper-pagination',
+  //           },
+  //           // 如果需要前进后退按钮
+  //           navigation: {
+  //             nextEl: '.swiper-button-next',
+  //             prevEl: '.swiper-button-prev',
+  //           },
+  //           // // 如果需要滚动条
+  //           // scrollbar: {
+  //           //   el: '.swiper-scrollbar',
+  //           // },
+  //         })
+  //       });
+  //     }
+  //   }
+  // }
 }
 </script>
 
