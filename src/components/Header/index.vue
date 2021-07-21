@@ -60,10 +60,10 @@ export default {
       this.$router.push({
         name: 'search',
         params: {
-          keyWord: this.keyWord,
+          keyWord: this.keyWord || undefined,
         }
       })
-    } 
+    }
   }
 }
 </script>
