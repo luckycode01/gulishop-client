@@ -5,3 +5,5 @@ export const reqCategoryList = () => Ajax({ url: '/product/getBaseCategoryList',
 
 export const reqBannerList = () => MockAjax({ url: '/banner', method: 'GET' });
 export const reqFloorList = () => MockAjax({ url: '/floor', method: 'GET' });
+
+export const reqGetGoodsList = () => Ajax({ url: '/list', method: 'POST'});

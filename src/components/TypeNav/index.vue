@@ -10,17 +10,17 @@
             <div class="all-sort-list2" @click='toSearch'>
               <div class="item " :class="{'active': currentIndex===index }" @mouseenter="mouseEnterEvent(index)" v-for="(c1,index) in categoryList" :key="c1.categoryId">
                 <h3>
-                  <a href="javascript:;" :data-categoryId1='c1.categoryId' :data-categoryName='c1.categoryName'>{{c1.categoryName}}</a>
+                  <a href="javascript:;" :data-category1Id='c1.categoryId' :data-categoryName='c1.categoryName'>{{c1.categoryName}}</a>
                 </h3>
                 <div class="item-list clearfix">
                   <div class="subitem">
                     <dl class="fore" v-for="c2 in c1.categoryChild" :key="c2.categoryId">
                       <dt>
-                        <a href="javascript:;" :data-categoryId2='c2.categoryId' :data-categoryName='c2.categoryName'>{{ c2.categoryName }}</a>
+                        <a href="javascript:;" :data-category2Id='c2.categoryId' :data-categoryName='c2.categoryName'>{{ c2.categoryName }}</a>
                       </dt>
                       <dd>
                         <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                          <a href="javascript:;" :data-categoryId3='c3.categoryId' :data-categoryName='c3.categoryName'>{{c3.categoryName}}</a>
+                          <a href="javascript:;" :data-category3Id='c3.categoryId' :data-categoryName='c3.categoryName'>{{c3.categoryName}}</a>
                         </em>
                       </dd>
                     </dl>
@@ -80,15 +80,15 @@ export default {
     toSearch(event) {
       const dataset = event.target.dataset;
       // 解构自定义属性的值
-      const { categoryname, categoryid1, categoryid2, categoryid3 } = dataset;
+      const { categoryname, category1id, category2id, category3id } = dataset;
       // 路由配置
       const location = {
         name: 'search',
       }
       //判断id的值是否存在，确定传入的参数
-      if (categoryid1) location.query = { categoryId1: categoryid1 };
-      else if (categoryid2) location.query = { categoryId2: categoryid2 };
-      else location.query = { categoryId3: categoryid3 };
+      if (category1id) location.query = { category1Id: category1id };
+      else if (category2id) location.query = { category2Id: category2id };
+      else location.query = { category3Id: category3id };
 
       if (this.$route.params) location.params = this.$route.params;
 
