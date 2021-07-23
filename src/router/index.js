@@ -11,12 +11,12 @@ Vue.use(VueRouter);
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function(localtion, resolved, rejected) {
   if (!resolved && !rejected) return _push.call(this, localtion).catch(() => {});
-  return _push.call(this, resolved, rejected);
+  return _push.call(this, localtion, resolved, rejected);
 };
 const replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function(localtion, resolved, rejected) {
   if (!resolved && !rejected) return replace.call(this, localtion).catch(() => {});
-  return replace.call(this, resolved, rejected);
+  return replace.call(this, localtion, resolved, rejected);
 };
 
 export default new VueRouter({
@@ -27,7 +27,7 @@ export default new VueRouter({
     },
     {
       name: 'search',
-      path: '/search/:keyWord',
+      path: '/search/:keyWord?',
       component: Search,
     },
     {

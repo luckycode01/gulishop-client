@@ -16,7 +16,17 @@ export default {
   components: {
     Header,
     Footer
+  },
+  mounted() {
+    this.getCateList();
+  },
+  methods: {
+
+    getCateList() {
+      this.$store.dispatch('getCateList');
+    }
   }
+
 }
 </script>
 
