@@ -14,11 +14,14 @@ import '@/mock/mockServe';
 import TypeNav from '@/components/TypeNav';
 Vue.component('TypeNav', TypeNav);
 import MySwiper from '@/components/MySwiper';
-Vue.component("MySwiper", MySwiper);
+Vue.component('MySwiper', MySwiper);
 
 Vue.config.productionTip = false;
 
 new Vue({
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
   render: (h) => h(App),
   router,
   store,
