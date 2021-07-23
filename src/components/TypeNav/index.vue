@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     // this.getCategoryList();
-    if (this.$route.path === '/search') {
+    if (this.$route.path !== '/home') {
       this.isShowSort = false;
     }
   },
@@ -91,7 +91,7 @@ export default {
     // 鼠标移出
     mouseMoveLeave() {
       this.currentIndex = -1;
-      if (this.$route.path === '/search') {
+      if (this.$route.path !== '/home') {
         this.isShowSort = false;
       }
     },
@@ -102,11 +102,11 @@ export default {
       const location = { name: 'search', }
       // 判断id的值，确定传入的参数
       if (categoryid1)
-        location.query = { categoryId1: categoryid1, categoryName: categoryname }
+        location.query = { category1Id: categoryid1, categoryName: categoryname }
       else if (categoryid2)
-        location.query = { categoryId2: categoryid2, categoryName: categoryname }
+        location.query = { category2Id: categoryid2, categoryName: categoryname }
       else
-        location.query = { categoryId3: categoryid3, categoryName: categoryname }
+        location.query = { category3Id: categoryid3, categoryName: categoryname }
 
       if (this.$route.params) location.params = this.$route.params
       if (categoryname) {

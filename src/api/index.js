@@ -9,3 +9,5 @@ export const reqCategoryList = () =>
 export const reqGetBannerList = () => mockAjax({ url: '/banner', method: 'get' });
 
 export const reqGetFloorList = () => mockAjax({ url: '/floor', method: 'get' });
+
+export const reqGoodsListInfo = (searchParams) => Ajax({ url: '/list', method: 'post', data: searchParams });
