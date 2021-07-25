@@ -26,24 +26,18 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active:orderFlag === '1'}" @click="changeOrder('1')">
+                  <a href="Javascript:;">综合<i v-if="orderFlag === '1'" class="iconfont" :class="{iconup:orderType==='asc',icondown:orderType=== 'desc'}"></i></a>
                 </li>
-                <li>
+                <li :class="{active:orderFlag === '2'}" @click="changeOrder('2')">
+                  <a href="Javascript:;">价格<i v-if="orderFlag === '2'" class="iconfont" :class="{iconup:orderType==='asc',icondown:orderType==='desc'}"></i></a>
+                </li>
+                <!-- <li>
                   <a href="#">销量</a>
                 </li>
                 <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
                   <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -74,35 +68,8 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 传入当前页，每页显示数量，总记录数量，最大连续数量 -->
+          <Pagination @changePage="getGoodsListInfo" :currentPage="goodsParamsInfo.pageNo" :pageSize="goodsParamsInfo.pageSize" :total="goodsListInfo.total" :continutePage=5></Pagination>
         </div>
       </div>
     </div>
@@ -110,26 +77,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import SearchSelector from './SearchSelector/SearchSelector'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'Search',
   components: {
-    SearchSelector
+    SearchSelector,
+    Pagination
   },
   data() {
     return {
       goodsParamsInfo: {
-        "category1Id": "",
-        "category2Id": "",
-        "category3Id": "",
-        "categoryName": "",
-        "keyword": "",
-        "order": "",
-        "pageNo": 1,
-        "pageSize": 10,
-        "props": [],
-        "trademark": ""
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
+        categoryName: "",
+        keyword: "",
+        order: "1:desc",
+        pageNo: 1,
+        pageSize: 2,
+        props: [],
+        trademark: ""
       }
     }
   },
@@ -142,7 +111,8 @@ export default {
   },
   methods: {
     // 发情求
-    getGoodsListInfo() {
+    getGoodsListInfo(page = 1) {
+      this.goodsParamsInfo.pageNo = page;
       this.$store.dispatch('getGoodsListInfo', this.goodsParamsInfo);
     },
     //修改请求参数
@@ -200,12 +170,39 @@ export default {
     deleteProp(index) {
       this.goodsParamsInfo.props.splice(index, 1);
       this.getGoodsListInfo();
-    }
+    },
+    // 点击排序按钮
+    changeOrder(orderFlag) {
+      // 获取原来得排序方式，
+      const oldOrderFlag = this.orderFlag;
+      const oldOrderType = this.orderType;
+      let newOrder = '';
+      // 原来的排序方式与点击后改变排序方式一样时
+      if (orderFlag === oldOrderFlag) {
+        newOrder = `${oldOrderFlag}:${oldOrderType === 'asc' ? 'desc' : 'asc'}`;
+      }
+      else {
+        newOrder = `${orderFlag}:desc`;
+      }
+      this.goodsParamsInfo.order = newOrder;
+      this.getGoodsListInfo();
+    },
+
 
 
   },
   computed: {
     ...mapGetters(['goodsList']),
+    ...mapState({
+      goodsListInfo: state => state.search.goodsListInfo,
+    }),
+    // 计算排序的类型及方式
+    orderFlag() {
+      return this.goodsParamsInfo.order.split(':')[0];
+    },
+    orderType() {
+      return this.goodsParamsInfo.order.split(':')[1];
+    }
   },
   watch: {
     $route: {
