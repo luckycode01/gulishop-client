@@ -110,7 +110,12 @@ export default {
 
       if (this.$route.params) location.params = this.$route.params
       if (categoryname) {
-        this.$router.push(location);
+        if (this.$route.path === '/home') {
+          this.$router.push(location);
+        }
+        else {
+          this.$router.replace(location);
+        }
       }
     }
   },

@@ -24,23 +24,23 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active : orderFlag === '1'}">
+                  <a href="javascript:;" @click='changeOrder("1")'>
+                    综合
+                    <i class="iconfont" :class="{iconup:orderType ==='asc',icondown:orderType==='desc'}" v-if="orderFlag === '1'"></i>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <!-- <li :class="{active : searchParams.order.split(':')[0] === '1'}">
+                  <a href="javascript:;" @click='changeOrder("1")'>
+                    综合
+                    <i class="iconfont" :class="{iconup:searchParams.order.split(':')[1] ==='asc',icondown:searchParams.order.split(':')[1]==='desc'}" v-if="searchParams.order.split(':')[0] === '1'"></i>
+                  </a>
+                </li> -->
+                <li :class="{active : orderFlag === '2'}">
+                  <a href="javascript:;" @click='changeOrder("2")'>
+                    价格
+                    <i class="iconfont" :class="{iconup:orderType ==='asc',icondown:orderType==='desc'}" v-if="orderFlag === '2'"></i>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -72,35 +72,8 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 参数：当前页、总条数、每页显示数量、连续页数量 -->
+          <Pagination @currentChange="getGoodsListInfo" :currentPage="goodsListInfo.pageNo" :total="goodsListInfo.total" :pageSize="goodsListInfo.pageSize" :continuePage="5"></Pagination>
         </div>
       </div>
     </div>
@@ -108,8 +81,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import SearchSelector from './SearchSelector/SearchSelector'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'Search',
   data() {
@@ -124,8 +98,8 @@ export default {
         props: [],
         trademark: "",
         order: "1:desc",
-        pageNo: 1,
-        pageSize: 10,
+        pageNo: 8, //当前页码
+        pageSize: 2, //每页显示得数量
       }
     }
   },
@@ -139,7 +113,8 @@ export default {
 
   methods: {
     // 发请求
-    getGoodsListInfo() {
+    getGoodsListInfo(currentPage = 1) {
+      this.searchParams.pageNo = currentPage;
       this.$store.dispatch('getGoodsListInfo', this.searchParams);
     },
     // 处理搜索参数
@@ -163,12 +138,12 @@ export default {
       // 将三级分类参数设置为undefined
       this.searchParams.categoryName = undefined;
       // 改变路径 需要重置路径
-      this.$router.push({ name: "search", params: this.$route.params });
+      this.$router.replace({ name: "search", params: this.$route.params });
     },
     //删除面包屑的搜索条件，keyword参数
     deleteKeyWord() {
       this.searchParams.keyword = undefined;
-      this.$router.push({ name: "search", query: this.$route.query });
+      this.$router.replace({ name: "search", query: this.$route.query });
       this.$bus.$emit('clearKeyword')
     },
     //按照品牌搜索
@@ -193,7 +168,25 @@ export default {
     deleteProp(index) {
       this.searchParams.props.splice(index, 1);
       this.getGoodsListInfo();
-    }
+    },
+    changeOrder(orderFlag) {
+      const originFlag = this.searchParams.order.split(':')[0];
+      const originType = this.searchParams.order.split(':')[1];
+      let newOrder = '';
+      if (originFlag === orderFlag) {
+        newOrder = `${orderFlag}:${originType === 'asc' ? 'desc' : 'asc'}`
+      }
+      else {
+        newOrder = `${orderFlag}:desc`
+      }
+      this.searchParams.order = newOrder;
+      this.getGoodsListInfo();
+    },
+    // currentChange(currentPage) {
+    //   this.searchParams.pageNo = currentPage;
+    //   this.getGoodsListInfo();
+    // }
+
   },
   watch: {
     // 监视路由的变化
@@ -206,10 +199,20 @@ export default {
     }
   },
   components: {
-    SearchSelector
+    SearchSelector,
+    Pagination
   },
   computed: {
     ...mapGetters(['goodsList']),
+    orderFlag() {
+      return this.searchParams.order.split(':')[0];
+    },
+    orderType() {
+      return this.searchParams.order.split(':')[1];
+    },
+    ...mapState({
+      goodsListInfo: (state) => state.search.goodsListInfo
+    })
   }
 
 }

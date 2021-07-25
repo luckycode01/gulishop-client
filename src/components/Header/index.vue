@@ -65,7 +65,13 @@ export default {
         params: { keyword: this.keyword || undefined },
       }
       if (this.$route.query) location.query = this.$route.query;
-      this.$router.push(location)
+      if (this.$route.path === '/home') {
+        this.$router.push(location);
+      }
+      else {
+        this.$router.replace(location);
+      }
+      // this.$router.push(location)
     },
   }
 }
