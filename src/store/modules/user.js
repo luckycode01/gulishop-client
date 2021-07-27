@@ -1,6 +1,8 @@
-//请求函数
+import {getuserTempId} from '@/utils/userabout'
 
-const state = {};
+const state = {
+  userTempId: getuserTempId(),
+};
 const mutations = {};
 const actions = {};
 const getters = {};
