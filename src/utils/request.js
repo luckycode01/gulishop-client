@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
+import store from '../store';
 // 二次封装axios 需要创建一个新的实例封装，（如果在原来的axios上封装，当有多个服务器地址时就没办法封装）
 const service = axios.create({
   // baseURL: 'http://39.98.123.211/api',
@@ -13,6 +14,12 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   //进度条
   Nprogress.start();
+  // 添加唯一标识
+  let userTempId = store.state.user.userTempId;
+  if (userTempId) {
+    config.headers.userTempId = userTempId;
+  }
+
   return config;
 });
 service.interceptors.response.use(

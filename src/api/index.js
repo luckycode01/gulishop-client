@@ -21,7 +21,52 @@ export const reqGoodsDetailInfo = (skuId) => Ajax({ url: `/item/${skuId}`, metho
 // /api/cart/addToCart/{ skuId }/{ skuNum }
 export const reqAddOrUpdateToCart = (skuId, skuNum) => {
   return Ajax({
-    url: `/cart/addToCart/${ skuId }/${ skuNum }`,
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
     method: 'post',
+  });
+};
+
+// 获取购物车列表
+// /api/acrt / cartList;
+export const reqCartList = () => {
+  return Ajax({
+    url: '/cart/cartList',
+    method: 'get',
+  });
+};
+// 修改单个购物车的状态
+// /api/cart/checkCart/{skuID}/{isChecked}
+export const reqUpdateOneCartIsCheak = (skuId, isChecked) => {
+  return Ajax({
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
+    method: 'get',
+  });
+};
+// 修改多个状态 	post  /api/cart/batchCheckCart/{isChecked}
+// 参数：skuIdList  数组  代表修改的商品id列表     请求体参数
+// isChecked  要修改的状态   1代表选中  0代表未选中
+export const reqUpdateAllCartIsCheak = (isChecked, skuIdList) => {
+  return Ajax({
+    url: `/cart/batchCheckCart/${isChecked}`,
+    method: 'post',
+    data: skuIdList,
+  });
+};
+// 逐条删除
+// /api/acrt / deleteCart / { skuId };
+export const reqDeleteOneCart = (skuId) => {
+  return Ajax({
+    url: `/cart/deleteCart/${skuId}`,
+    method: 'delete',
+  });
+};
+// 批量删除
+// o	DELETE /api/cart/batchDeleteCart
+// 参数：skuIdList  数组  代表修改的商品id列表     请求体参数
+export const reqDeleteAllCart = (skuIdList) => {
+  return Ajax({
+    url: '/cart/batchDeleteCart',
+    method: 'delete',
+    data: skuIdList,
   });
 };

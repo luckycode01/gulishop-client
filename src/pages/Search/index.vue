@@ -105,7 +105,7 @@ export default {
         trademark: "",
         order: "1:desc",
         pageNo: 8, //当前页码
-        pageSize: 2, //每页显示得数量
+        pageSize:5, //每页显示得数量
       }
     }
   },

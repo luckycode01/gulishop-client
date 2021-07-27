@@ -1,4 +1,8 @@
-const state = {};
+import {getUserTempId} from '@/utils/userAbout';
+
+const state = {
+  userTempId: getUserTempId(),
+};
 const mutations = {};
 const actions = {};
 const getters = {};
