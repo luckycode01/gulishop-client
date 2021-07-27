@@ -2,7 +2,7 @@ import axios from 'axios';
 import Nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
 const service = axios.create({
-  baseURL: 'http://39.98.123.211/api',
+  baseURL: '/api',
   timeout: 5000,
 });
 
