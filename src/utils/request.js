@@ -20,6 +20,11 @@ service.interceptors.request.use(
     if (userTempId) {
       config.headers.userTempId = userTempId;
     }
+
+    let token = store.state.user.token;
+    if (token) {
+      config.headers.token = token;
+    }
     // 一定要返回报文
     return config;
   }

@@ -14,7 +14,7 @@
       <div class="content">
         <label>验证码:</label>
         <input type="text" placeholder="请输入验证码" v-model="code">
-        <img ref="code" src="http://182.92.128.115/api/user/passport/code" alt="code">
+        <button style="width: 100px;height:36px" @click="getCode">获取验证码</button>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
@@ -33,7 +33,7 @@
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click='register'>完成注册</button>
       </div>
     </div>
 
@@ -68,6 +68,32 @@ export default {
       isChecked: true
     }
   },
+  methods: {
+    async getCode() {
+      if (this.phone) {
+        try {
+          const res = await this.$store.dispatch('getCode', this.phone);
+          this.code = res
+        } catch (error) {
+          alert('获取验证码失败' + error.message)
+        }
+
+      } else alert("Please input your phone")
+
+    },
+    async register() {
+      let { phone, code, password, password1, isChecked } = this;
+      if (phone && code && password && isChecked && password1 === password) {
+        try {
+          await this.$store.dispatch('register', { phone, code, password })
+          alert('注册成功，即将跳转得到主页');
+          this.$router.push('/');
+        } catch (error) {
+          alert('注册失败，' + error.message)
+        }
+      }
+    }
+  }
 
 }
 </script>

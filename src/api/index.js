@@ -77,3 +77,44 @@ export const reqDeleteAllCart = (skuIdList) => {
     data: skuIdList,
   });
 };
+// /user/aopprsst / code;
+export const reqGetCode = (phone) => {
+  return Ajax({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'GET',
+  });
+};
+
+// /user/aopprsst / register;
+export const reqRegister = (userInfo) => {
+  return Ajax({
+    url: '/user/passport/register',
+    method: 'POST',
+    data: userInfo,
+  });
+};
+
+// 登录
+export const reqLogin = (userInfo) => {
+  return Ajax({
+    url: '/user/passport/login',
+    method: 'POST',
+    data: userInfo,
+  });
+};
+// token 验证
+export const reqGetUserInfo = (userInfo) => {
+  return Ajax({
+    url: '/user/passport/auth/getUserInfo',
+    method: 'get',
+  });
+};
+
+// 退出登录
+// /user/passport/logout
+export const logout = () => {
+  return Ajax({
+    url: '/user/passport/logout',
+    method: 'get',
+  });
+};
