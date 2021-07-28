@@ -1,3 +1,4 @@
+import store from '@/store';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
@@ -22,9 +23,40 @@ VueRouter.prototype.replace = function(location, resolved, rejected) {
   }
 };
 
-export default new VueRouter({
+const router = new VueRouter({
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
   routes,
 });
+
+router.beforeEach(async (to, from, next) => {
+  // 获取token和用户信息
+  let token = store.state.user.token;
+  let userInfo = store.state.user.userInfo;
+  if (token) {
+    // token存在说明用户已经登录
+    if (to.path === '/login') {
+      // 用户已经登录了还点击登录，
+      next('/');
+    } else {
+      // 登录后点击的不是login页，判断有没有用户信息，
+      if (userInfo.name) {
+        next();
+      } else {
+        try {
+          await store.dispatch('getUserInfo');
+          next();
+        } catch (error) {
+          store.dispatch('clearToken');
+          next('/login');
+        }
+      }
+    }
+  } else {
+    // 没有token，没有登录
+    next();
+  }
+});
+
+export default router;

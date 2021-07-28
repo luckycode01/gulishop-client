@@ -20,7 +20,7 @@
             <div class="item-msg">{{cartInfo.skuName}}</div>
           </li>
           <li class="cart-list-con4">
-            <span class="price">{{cartInfo.skuPrice}}</span>
+            <span class="price">{{cartInfo.cartPrice}}</span>
           </li>
           <li class="cart-list-con5">
             <a href="javascript:void(0)" class="mins" @click="changeCartNum(-1,cartInfo)">-</a>
@@ -28,7 +28,7 @@
             <a href="javascript:void(0)" class="plus" @click="changeCartNum(1,cartInfo)">+</a>
           </li>
           <li class="cart-list-con6">
-            <span class="sum">{{cartInfo.skuNum * cartInfo.skuPrice}}</span>
+            <span class="sum">{{cartInfo.skuNum * cartInfo.cartPrice}}</span>
           </li>
           <li class="cart-list-con7">
             <a href="javascript:;" class="sindelet" @click="deleteOneCart(cartInfo)">删除</a>

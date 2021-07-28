@@ -70,3 +70,45 @@ export const reqDeleteAllCart = (skuIdList) => {
     data: skuIdList,
   });
 };
+// 获取验证码
+// /user/passport/sendCode/{phone}
+export const reqGetCode = (phone) => {
+  return Ajax({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'get',
+  });
+};
+// 注册
+// /user/aopprsst / register;
+export const reqRegister = (userInfo) => {
+  return Ajax({
+    url: `/user/passport/register`,
+    method: 'post',
+    data: userInfo,
+  });
+};
+// 登录请求
+// /user/aopprsst / login;
+export const reqLogin = (userInfo) => {
+  return Ajax({
+    url: `/user/passport/login`,
+    method: 'post',
+    data: userInfo,
+  });
+};
+// /user/passport/auth/getUserInfo
+// 获取用户信息
+export const reqGetUserInfo = () => {
+  return Ajax({
+    url: '/user/passport/auth/getUserInfo',
+    method: 'get',
+  });
+};
+// /user/passport/logout
+// 退出登录
+export const reqLogout = () => {
+  return Ajax({
+    url: '/user/passport/logout',
+    method: 'get',
+  });
+};

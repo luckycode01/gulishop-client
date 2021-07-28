@@ -6,7 +6,11 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="$store.state.user.userInfo.name">
+            <a href="javascript:;">{{$store.state.user.userInfo.name}}</a>
+            <a href="javascript:;" class="register" @click="logout">退出登录</a>
+          </p>
+          <p v-else>
             <span>请</span>
             <!-- <a href="###">登录</a>
             <a href="###" class="register">免费注册</a> -->
@@ -16,7 +20,7 @@
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <a href="javascript:;" @click="$router.push('/shopcart')">我的购物车</a>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -73,6 +77,15 @@ export default {
       }
       // this.$router.push(location)
     },
+    async logout() {
+      try {
+        await this.$store.dispatch('logout');
+        this.$router.push('./login')
+      } catch (error) {
+        alert('退出失败');
+      }
+
+    }
   }
 }
 </script>
