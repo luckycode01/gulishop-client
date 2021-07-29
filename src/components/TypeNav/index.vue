@@ -60,7 +60,7 @@ export default {
   },
 
   mounted() {
-      
+
     if (this.$route.path !== '/home') this.isShowCate = false;
   },
   computed: {
@@ -84,7 +84,6 @@ export default {
     toSearch(event) {
       const dataset = event.target.dataset;
       const { categoryname, categoryid1, categoryid2, categoryid3 } = dataset;
-      console.log(dataset, categoryname);
       // 如果Name存在就说明点击的a标签，因为只有a标签绑定了categoryName属性
       if (categoryname) {
         const location = {

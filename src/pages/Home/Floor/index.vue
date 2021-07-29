@@ -6,7 +6,7 @@
         <h3 class="fl">{{floor.name}}</h3>
         <div class="fr">
           <ul class="nav-tabs clearfix">
-            <li class="active" v-for="nav in floor.navlist" :key='nav.text'>
+            <li class="active" v-for="nav in floor.navList" :key='nav.text'>
               <a :href="nav.url" data-toggle="tab">{{nav.text}}</a>
             </li>
           </ul>
