@@ -9,17 +9,17 @@
             <div class="all-sort-list2" @click="toSearch">
               <div class="item" :class="{'item_active': currentIndex === index}" @mouseenter="mouseEnter(index)" v-for="(item1,index) in cateList" :key="item1.categoryId">
                 <h3>
-                  <a href="javascript:;" :data-categoryId1="item1.categoryId" :data-categoryName="item1.categoryName">{{item1.categoryName}}</a>
+                  <a href="javascript:;" :data-category1Id="item1.categoryId" :data-categoryName="item1.categoryName">{{item1.categoryName}}</a>
                 </h3>
                 <div class="item-list clearfix">
                   <div class="subitem">
                     <dl class="fore" v-for="item2 in item1.categoryChild" :key="item2.categoryId">
                       <dt>
-                        <a href="javascript:;" :data-categoryId2="item2.categoryId" :data-categoryName="item2.categoryName">{{item2.categoryName}}</a>
+                        <a href="javascript:;" :data-category2Id="item2.categoryId" :data-categoryName="item2.categoryName">{{item2.categoryName}}</a>
                       </dt>
                       <dd>
                         <em v-for="item3 in item2.categoryChild" :key='item3.categoryId'>
-                          <a href="javascript:;" :data-categoryId3="item3.categoryId" :data-categoryName="item3.categoryName">{{item3.categoryName}}</a>
+                          <a href="javascript:;" :data-category3Id="item3.categoryId" :data-categoryName="item3.categoryName">{{item3.categoryName}}</a>
                         </em>
                       </dd>
                     </dl>
@@ -83,18 +83,18 @@ export default {
     // 点击A标签跳转，委派
     toSearch(event) {
       const dataset = event.target.dataset;
-      const { categoryname, categoryid1, categoryid2, categoryid3 } = dataset;
+      const { categoryname, category1id, category2id, category3id } = dataset;
       // 如果Name存在就说明点击的a标签，因为只有a标签绑定了categoryName属性
       if (categoryname) {
         const location = {
           name: 'search',
         }
-        if (categoryid1) {
-          location.query = { categoryId1: categoryid1, categoryName: categoryname };
-        } else if (categoryid2) {
-          location.query = { categoryId2: categoryid2, categoryName: categoryname };
+        if (category1id) {
+          location.query = { category1Id: category1id, categoryName: categoryname };
+        } else if (category2id) {
+          location.query = { category2Id: category2id, categoryName: categoryname };
         } else {
-          location.query = { categoryId3: categoryid3, categoryName: categoryname };
+          location.query = { category3Id: category3id, categoryName: categoryname };
         }
 
         if (this.$route.params) location.params = this.$route.params;
