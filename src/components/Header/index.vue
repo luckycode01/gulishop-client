@@ -8,7 +8,7 @@
           <p>尚品汇欢迎您！</p>
           <p v-if="$store.state.user.userInfo.name">
             <a href="javascript:;">{{$store.state.user.userInfo.name}}</a>
-            <a href="javascript:;" class="register">退出登录</a>
+            <a href="javascript:;" class="register" @click="logout">退出登录</a>
           </p>
           <p v-else>
             <span>请</span>
@@ -74,7 +74,17 @@ export default {
         location.query = this.$route.query;
       }
       this.$router.push(location)
+    },
+    async logout() {
+      try {
+        await this.$store.dispatch('logout');
+        alert('退出成功，为您跳转到登录页面')
+        this.$router.push('/login');
+      } catch (error) {
+        alert('退出失败,' + error)
+      }
     }
+
   }
 }
 </script>

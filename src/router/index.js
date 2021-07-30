@@ -41,6 +41,7 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('getUserInfo');
           next();
         } catch (err) {
+          await store.dispatch('resetToken');
           next('/');
         }
       }

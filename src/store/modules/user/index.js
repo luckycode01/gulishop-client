@@ -1,4 +1,4 @@
-import { reqGetCode, reqLogin, reqRegister, reqUserInfo } from '@/api';
+import { reqGetCode, reqLogin, reqRegister, reqUserInfo, reqLogout } from '@/api';
 import { getUserTempId } from '@/utils/userAbout';
 const state = {
   userTempId: getUserTempId(),
@@ -15,6 +15,12 @@ const mutations = {
   },
   RECEIVE_USERINFO(state, userinfo) {
     state.userInfo = userinfo;
+  },
+  RESET_USERINFO(state) {
+    state.userInfo = {};
+  },
+  RESET_TOKEN(state) {
+    state.token = '';
   },
 };
 const actions = {
@@ -48,6 +54,23 @@ const actions = {
     const res = await reqUserInfo();
     if (res.code === 200) {
       commit('RECEIVE_USERINFO', res.data);
+    }
+  },
+  // 清空token
+  resetToken({ commit }) {
+    localStorage.removeItem('token_key');
+    commit('RESET_TOKEN');
+  },
+
+  // 退出登录
+  async logout({ commit, dispatch }) {
+    const res = await reqLogout();
+    if (res.code === 200) {
+      commit('RESET_USERINFO');
+      dispatch('resetToken');
+      return 'ok';
+    } else {
+      return Promise.reject(new Error('faild'));
     }
   },
 };

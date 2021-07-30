@@ -114,3 +114,10 @@ export const reqUserInfo = () => {
     method: 'get',
   });
 };
+// 退出登录
+export const reqLogout = () => {
+  return Ajax({
+    url: '/user/passport/logout',
+    method: 'get',
+  });
+};
