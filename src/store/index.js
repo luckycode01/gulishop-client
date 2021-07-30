@@ -6,6 +6,7 @@ import user from './modules/user';
 import search from './modules/search';
 import detail from './modules/detail';
 import shopcart from './modules/shopcart';
+import trade from './modules/trade';
 
 Vue.use(Vuex);
 
@@ -31,5 +32,6 @@ export default new Vuex.Store({
     search,
     detail,
     shopcart,
+    trade,
   },
 });

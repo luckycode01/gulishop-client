@@ -80,7 +80,7 @@ export default {
     async logout() {
       try {
         await this.$store.dispatch('logout');
-        this.$router.push('./login')
+        this.$router.push('/login')
       } catch (error) {
         alert('退出失败');
       }

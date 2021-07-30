@@ -112,3 +112,47 @@ export const reqLogout = () => {
     method: 'get',
   });
 };
+
+// /order/auth/trade
+// 获取订单信息
+export const reqTradeInfo = () => {
+  return Ajax({
+    url: '/order/auth/trade',
+    method: 'get',
+  });
+};
+
+// 获取用户地址
+// /user/Addeerrsssu / auth / findUserAddressList;
+export const reqUserAddressList = () => {
+  return Ajax({
+    url: '/user/userAddress/auth/findUserAddressList',
+    method: 'get',
+  });
+};
+
+// 创建订单
+// /order/auth/submitOrder?tradeNo={tradeNo}
+export const reqSubmitOrder = (tradeNo, tradeInfo) => {
+  return Ajax({
+    url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method: 'post',
+    data: tradeInfo,
+  });
+};
+
+// 获取支付信息
+// /payment/weixin/createNative/{orderId}
+export const reqPayInfo = (orderId) => {
+  return Ajax({
+    url: `/payment/weixin/createNative/${orderId}`,
+    method: 'get',
+  });
+};
+// 获取订单支付状态
+export const reqPayState = (orderId) => {
+  return Ajax({
+    url: `/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get',
+  });
+};
