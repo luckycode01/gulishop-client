@@ -122,7 +122,7 @@ export default {
               //   this.$message.error('给钱');
               // }
               // 清除定时器
-              clearInterval(this.temer);
+              clearInterval(this.timer);
               this.timer = null;
               done();
 
@@ -137,14 +137,14 @@ export default {
           }
         }).then(() => { }).catch(() => { });
         // 支付
-        if (!this.temer) {
+        if (!this.timer) {
           // 每间隔2秒发送请求
           this.timer = setInterval(async () => {
             const res = await this.$API.reqPayState(this.orderId);
             if (res.code === 200) {
               this.payState = 200;
               // 清除定时器
-              clearInterval(this.temer);
+              clearInterval(this.timer);
               this.timer = null;
 
               this.$router.push('/paysuccess');
