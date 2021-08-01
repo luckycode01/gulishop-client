@@ -6,9 +6,15 @@ import store from './store';
 import 'swiper/css/swiper.min.css';
 import '@/mock/mockServe';
 
+import { MessageBox, Message } from 'element-ui';
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message;
 // 测试接口请求
 // import { reqCategoryList } from '@/api/';
 // reqCategoryList();
+import * as API from '@/api';
+Vue.prototype.$API = API;
 
 // 全局组件
 import TypeNav from '@/components/TypeNav';

@@ -5,8 +5,28 @@ import Register from '@/pages/Register';
 import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
+import Center from '@/pages/Center';
+import Pay from '@/pages/Pay';
+import PaySuccess from '@/pages/PaySuccess';
+import Trade from '@/pages/Trade';
 
 export default [
+  {
+    path: '/center',
+    component: Center,
+  },
+  {
+    path: '/trade',
+    component: Trade,
+  },
+  {
+    path: '/paysuccess',
+    component: PaySuccess,
+  },
+  {
+    path: '/pay',
+    component: Pay,
+  },
   {
     path: '/shopcart',
     component: ShopCart,
