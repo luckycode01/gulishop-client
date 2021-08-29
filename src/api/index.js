@@ -156,3 +156,12 @@ export const reqPayState = (orderId) => {
     method: 'get',
   });
 };
+
+// 获取订单列表
+// /api/deorr / auth / { page } / { limit };
+export const reqOrderList = (page, limit) => {
+  return Ajax({
+    url: `/order/auth/${page}/${limit}`,
+    method: 'get',
+  });
+};

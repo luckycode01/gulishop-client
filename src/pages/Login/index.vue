@@ -17,11 +17,18 @@
             <form action="##">
               <div class="input-text clearFix">
                 <span></span>
-                <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone">
+                <!-- <input type="text" placeholder="邮箱/用户名/手机号" v-model="phone"> -->
+
+                <input v-model="phone" name="phone" v-validate="{ required: true, regex: /^1[3-9]\d{9}$/ }" :class="{ invalid: errors.has('phone') }" />
+                <i class="error-msg">{{ errors.first("phone") }}</i>
+
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input type="text" placeholder="请输入密码" v-model="password">
+                <!-- <input type="text" placeholder="请输入密码" v-model="password"> -->
+                <input v-model="password" name="password" v-validate="{ required: true, regex: /^\w{3,10}$/ }" :class="{ invalid: errors.has('password') }" />
+                <i class="error-msg">{{ errors.first("password") }}</i>
+
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
@@ -71,10 +78,10 @@ export default {
 
   data() {
     return {
-      // phone: '13700000000',
-      // password: '111111',
-      phone: '134511671122',
-      password: '111222',
+      phone: '13700000000',
+      password: '111111',
+      // phone: '134511671122',
+      // password: '111222',
     }
   },
   methods: {
@@ -83,10 +90,11 @@ export default {
       if (phone && password) {
         try {
           await this.$store.dispatch('login', { phone, password })
-          alert('登录成功，即将跳转到主页')
-          this.$router.push('/')
+          // alert('登录成功，即将跳转到主页')
+          let redirect = this.$route.query.redirect || '/'
+          this.$router.push(redirect);
         } catch (error) {
-          alert('登录失败')
+          alert('登录失败');
         }
       }
     }
@@ -95,6 +103,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.error-msg {
+  color: red;
+}
 .login-container {
   .login-wrap {
     height: 487px;

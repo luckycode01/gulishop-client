@@ -24,6 +24,7 @@ VueRouter.prototype.replace = function(location, resolved, rejected) {
 };
 
 const router = new VueRouter({
+  mode: 'history',
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
@@ -55,7 +56,12 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     // 没有token，没有登录
-    next();
+    let targetPath = to.path;
+    if (targetPath.indexOf('/trade') === 0 || targetPath.indexOf('/pay') === 0 || targetPath.startsWith('/center')) {
+      next('/login?redirect=' + targetPath);
+    } else {
+      next();
+    }
   }
 });
 
