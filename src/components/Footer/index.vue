@@ -154,7 +154,7 @@ export default {
             background: #666;
             margin: 8px 10px;
           }
-        }
+        } 
       }
 
       p {

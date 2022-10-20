@@ -2,8 +2,8 @@ module.exports = {
   devServer: {
     open: true,
     proxy: {
-      '/api': {
-        target: 'http://39.98.123.211',
+      "/api": {
+        target: "http://gmall-h5-api.atguigu.cn",
         changeOrigin: true,
       },
     },
