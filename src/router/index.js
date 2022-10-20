@@ -16,11 +16,44 @@ VueRouter.prototype.replace = function(localtion, resolved, rejected) {
   return replace.call(this, localtion, resolved, rejected);
 };
 
+<<<<<<< HEAD
 const router = new VueRouter({
   scrollBehavior(to, from, savedPosition) {
     return { x: 0, y: 0 };
   },
   routes,
+=======
+export default new VueRouter({
+  routes: [
+    {
+      path: '/home',
+      component: Home,
+    },
+    {
+      name: 'search',
+      path: '/search/:keyWord?',
+      component: Search,
+    },
+    {
+      path: '/login',
+      component: Login,
+      meta: {
+        isShowFooter: true,
+      },
+    },
+    {
+      path: '/register',
+      component: Register,
+      meta: {
+        isShowFooter: true,
+      },
+    },
+    {
+      path: '/',
+      redirect: '/home',
+    },
+  ],
+>>>>>>> 678fc7ee960c257a0057ae44b2025b8401b204ef
 });
 
 router.beforeEach(async (to, from, next) => {

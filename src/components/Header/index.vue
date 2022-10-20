@@ -67,6 +67,7 @@ export default {
       const location = {
         name: 'search',
         params: {
+<<<<<<< HEAD
           keyword: this.keyWord,
         }
       }
@@ -85,6 +86,12 @@ export default {
       }
     }
 
+=======
+          keyWord: this.keyWord || undefined,
+        }
+      })
+    }
+>>>>>>> 678fc7ee960c257a0057ae44b2025b8401b204ef
   }
 }
 </script>
